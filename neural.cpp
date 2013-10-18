@@ -249,7 +249,7 @@ private:
 
 int main()
 {
-  int layer[3] = {2, 2, 1};  // input, hidden, output
+  int layer[3] = {11, 11, 1};  // input, hidden, output
   Network network;
 
   network.set_data(0.1, layer);
@@ -258,8 +258,13 @@ int main()
 
   // XOR
   int iter = 0;
-  double tr_inp[4][2] = {{0.0, 0.0}, {1.0, 0.0}, {0.0, 1.0}, {1.0, 1.0}};
-  double tr_out[4][1] = {{0.0}, {1.0}, {1.0}, {0.0}};
+  double tr_inp[4][11] = {
+      {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0},
+      {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0},
+      {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0},
+      {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0}
+  };
+  double tr_out[4][1] = { {1.0}, {0.0}, {0.0}, {0.0} };
 
   std::cout << "Enter number of training Iterations: ";
   std::cin >> iter;
