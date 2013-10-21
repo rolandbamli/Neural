@@ -14,6 +14,13 @@ Back-propagation neural network for testing XOR.
  * - fixed segfault errors
  * - cleaner code
  * - improved runtime: 25% faster
+ 
+Build
+=====
+
+>$ cmake .
+
+>$ make
 
 Output
 ======
