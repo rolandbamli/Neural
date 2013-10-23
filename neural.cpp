@@ -17,7 +17,6 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
-#include <iomanip>
 
 class Dendrite
 {
