@@ -4,12 +4,13 @@
  * Web: www.paraschopra.com
  * Comment: Use this code as you like, but please give me credit whenever I deserve it.
  *
- * Improved version by András Mamenyák
+ * Improved version by András Mamenyák, Roland Bamli
  * Changelog
  * - fixed build errors
  * - fixed segfault errors
  * - cleaner code
  * - improved runtime: 25% faster
+ * - test the Barker 11 code
  */
 
 #include <iostream>
@@ -240,7 +241,8 @@ private:
 
 int main()
 {
-  const int Ninput = 4;
+  const int Ntest_input = 100;
+  const int Ntr_input = 4;
   const int Nneuron = 11;
   const int layer[3] = {Nneuron, Nneuron, 1};  // input, hidden, output
 
@@ -250,20 +252,20 @@ int main()
 
   std::cout << "Start training.\n\n";
 
-  const double tr_inp[Ninput][Nneuron] = {
+  const double tr_inp[Ntr_input][Nneuron] = {
     {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0},
     {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0},
     {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0},
     {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0}
   };
-  const double tr_out[Ninput][1] = { {1.0}, {0.0}, {0.0}, {0.0} };
+  const double tr_out[Ntr_input][1] = { {1.0}, {0.0}, {0.0}, {0.0} };
 
   int iter = 0;
   std::cout << "Enter number of training Iterations: ";
   std::cin >> iter;
 
   for(int i = 0; i < iter; i++)
-    for(int j = 0; j < Ninput; j++)
+    for(int j = 0; j < Ntr_input; j++)
       network.train(tr_inp[j], tr_out[j]);
 
   std::cout << "\nEnd training.";
@@ -271,19 +273,36 @@ int main()
 
   std::cout << "\n\nStart testing.";
 
-  double output[Ninput];
+  double output[Ntr_input];
 
-  for(int j = 0; j < Ninput; j++)
+  double new_inp[Ntest_input][Nneuron];
+
+  for(int i =0; i < Nneuron; i++)
+  {
+    new_inp[0][i] = tr_inp[0][i];
+  }
+
+  for(int i = 1; i < Ntest_input; i++)
+  {
+    for(int j = 0; j < Nneuron; j++)
+    {
+      new_inp[i][j] = (double)(rand()%2);
+    }
+  }
+
+  for(int j = 0; j < Ntest_input; j++)
   {
     std::cout << "\n\nCase number: " << j+1;
 
-    network.test(tr_inp[j], output);
+    network.test(new_inp[j], output);
+
+    std::cout << "\nInput : ";
 
     for(int i = 0; i < layer[0]; i++)
-      std::cout << "\nInput" << i+1 << " : " << tr_inp[j][i];
+      std::cout << new_inp[j][i];
 
     for(int i = 0; i < layer[2]; i++)
-      std::cout << "\nOutput" << i+1 << " : " << output[i];
+      std::cout << "\nOutput" << " : " << output[i];
   }
 
   std::cout << "\n\nEnd testing.\n";

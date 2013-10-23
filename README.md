@@ -1,7 +1,7 @@
 Neural
 ======
 
-Back-propagation neural network for testing XOR.
+Back-propagation neural network for testing Barker 11 code.
 
  * Written by: Paras Chopra
  * Email: paras1987@gmail.com
@@ -14,6 +14,7 @@ Back-propagation neural network for testing XOR.
  * - fixed segfault errors
  * - cleaner code
  * - improved runtime: 25% faster
+ * - test the Barker 11 code
  
 Build
 =====
@@ -21,36 +22,3 @@ Build
 >$ cmake .
 
 >$ make
-
-Output
-======
-
-Start training.
-
-Enter number of training Iterations: 1000000
-
-End training.
-
-Start testing.
-
-Case number: 1
-Input1 : 0
-Input2 : 0
-Output1 : 0.00325416
-
-Case number: 2
-Input1 : 1
-Input2 : 0
-Output1 : 0.994903
-
-Case number: 3
-Input1 : 0
-Input2 : 1
-Output1 : 0.994913
-
-Case number: 4
-Input1 : 1
-Input2 : 1
-Output1 : 0.00513697
-
-End testing.
