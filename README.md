@@ -20,5 +20,31 @@ Build
 =====
 
 >$ cmake .
-
 >$ make
+
+Output
+======
+
+Start training.
+
+Enter number of training iterations: 10000
+
+End training.
+
+Start testing.
+
+Case number: 1
+Input: 01100010010 (787)
+Output: 0.785815
+
+Case number: 2
+Input: 10100010010 (1299)
+Output: 0.662065
+
+Case number: 3
+Input: 11100010010 (1811)
+Output: 0.941524
+
+End testing.
+
+Number of positive output: 3

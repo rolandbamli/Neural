@@ -17,6 +17,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
+#include <iomanip>
 
 class Dendrite
 {
@@ -166,7 +167,7 @@ public:
           layer[i].neuron[j].bias += Delta*learning_rate;
 
         for (int k = 0; k < neuron_per_layer[i-1]; k++)  // Calculate the new weights
-          layer[i-1].neuron[k].dendrite[j].weight +=  Delta*learning_rate*layer[i-1].neuron[k].value;
+          layer[i-1].neuron[k].dendrite[j].weight += Delta*learning_rate*layer[i-1].neuron[k].value;
       }
   }
 
@@ -241,9 +242,9 @@ private:
 
 int main()
 {
-  const int Ntest = 100;
-  const int Ntrain = 4;
   const int Nneuron = 11;
+  const int Ntrain = 256;
+  const int Ntest = pow(2, Nneuron);
   const int layer[3] = {Nneuron, Nneuron, 1};  // input, hidden, output
 
   Network network;
@@ -252,60 +253,86 @@ int main()
 
   std::cout << "Start training.\n\n";
 
-  const double train_input[Ntrain][Nneuron] = {
-    {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0},
-    {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0},
-    {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, 0.0},
-    {1.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0}
-  };
-  const double train_output[Ntrain][1] = { {1.0}, {0.0}, {0.0}, {0.0} };
+  double train_input[Ntrain][layer[0]];
+  double train_output[Ntrain][layer[2]];
 
-  int iter = 0;
-  std::cout << "Enter number of training Iterations: ";
-  std::cin >> iter;
+  // 11100010010 - 1811
+  train_input[0][0] = train_input[0][1] = train_input[0][2] = train_input[0][6] = train_input[0][9] = 1;
+  train_input[0][3] = train_input[0][4] = train_input[0][5] = train_input[0][7] = train_input[0][8] = train_input[0][10] = 0;
 
-  for(int i = 0; i < iter; i++)
-    for(int j = 0; j < Ntrain; j++)
-      network.train(train_input[j], train_output[j]);
+  for (int i = 1; i < Ntrain; i++)
+    for (int j = 0; j < layer[0]; j++)
+      train_input[i][j] = (double) (rand()%2);
 
-  std::cout << "\nEnd training.";
-
-
-  std::cout << "\n\nStart testing.";
-
-  double test_output[Ntrain];
-
-  double test_input[Ntest][Nneuron];
-
-  for(int i =0; i < Nneuron; i++)
+  for (int i = 0; i < Ntrain; i++)
   {
-    test_input[0][i] = train_input[0][i];
+    if (train_input[i][0] + train_input[i][1] + train_input[i][2] + train_input[i][6] + train_input[i][9] == 5 &&
+        train_input[i][3] + train_input[i][4] + train_input[i][5] + train_input[i][7] + train_input[i][8] + train_input[i][10] == 0)
+      train_output[i][0] = 1;
+    else
+      train_output[i][0] = 0;
   }
 
-  for(int i = 1; i < Ntest; i++)
+  int iter = 0;
+  std::cout << "Enter number of training iterations: ";
+  std::cin >> iter;
+
+  for (int i = 0; i < iter; i++)
+    for (int j = 0; j < Ntrain; j++)
+      network.train(train_input[j], train_output[j]);
+
+  std::cout << "\nEnd training.\n";
+
+
+  std::cout << "\nStart testing.\n";
+
+  double test_input[Ntest][layer[0]];
+  double test_output[layer[2]];
+  int db = 0;
+
+  for (int i = 0; i < Ntest; i++)
   {
-    for(int j = 0; j < Nneuron; j++)
+    int tmp = i;
+    int j = Nneuron - 1;
+
+    while (tmp > 0)
     {
-      test_input[i][j] = (double)(rand()%2);
+      test_input[i][j] = tmp%2;
+      tmp /= 2;
+      j--;
+    }
+
+    while (j > 0)
+    {
+      test_input[i][j] = 0;
+      j--;
+    }
+ }
+
+  for (int i = 0; i < Ntest; i++)
+  {
+    network.test(test_input[i], test_output);
+
+    if (test_output[0] > 0.5)
+    {
+      db++;
+      std::cout << "\nCase number: " << db << "\n";
+
+      std::cout << "Input: ";
+      for (int j = 0; j < layer[0]; j++)
+        std::cout << test_input[i][j];
+      std::cout << " (" << i+1 << ")\n";
+
+      std::cout << "Output: ";
+      for (int j = 0; j < layer[2]; j++)
+        std::cout << test_output[j];
+      std::cout << "\n";
     }
   }
 
-  for(int j = 0; j < Ntest; j++)
-  {
-    std::cout << "\n\nCase number: " << j+1;
+  std::cout << "\nEnd testing.\n";
 
-    network.test(test_input[j], test_output);
-
-    std::cout << "\nInput : ";
-
-    for(int i = 0; i < layer[0]; i++)
-      std::cout << test_input[j][i];
-
-    for(int i = 0; i < layer[2]; i++)
-      std::cout << "\nOutput" << " : " << test_output[i];
-  }
-
-  std::cout << "\n\nEnd testing.\n";
+  std::cout << "\nNumber of positive output: " << db << "\n";
 
   return 0;
 }
