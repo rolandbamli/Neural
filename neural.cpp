@@ -115,7 +115,7 @@ public:
   /*
    * The real test
    */
-  void set_input_output(const double input[], double output[])
+  void test(const double input[], double output[])
   {
     for (int i = 0; i < neuron_per_layer[0]; i++)
       layer[0].neuron[i].value = input[i];
@@ -127,7 +127,7 @@ public:
   }
 
   /*
-   * The standard backprop Learning algorithm
+   * The standard backprop learning algorithm
    *
    * For output layer:
    * Delta = (Target - Actual) * Actual * (1 - Actual)
@@ -277,7 +277,7 @@ int main()
   {
     std::cout << "\n\nCase number: " << j+1;
 
-    network.set_input_output(tr_inp[j], output);
+    network.test(tr_inp[j], output);
 
     for(int i = 0; i < layer[0]; i++)
       std::cout << "\nInput" << i+1 << " : " << tr_inp[j][i];
