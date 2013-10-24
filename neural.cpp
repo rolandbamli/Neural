@@ -241,6 +241,7 @@ private:
 
 int main()
 {
+  const int Niter = 10000;
   const int Nneuron = 11;
   const int Ntrain = 256;
   const int Ntest = pow(2, Nneuron);
@@ -272,11 +273,9 @@ int main()
       train_output[i][0] = 0;
   }
 
-  int iter = 0;
-  std::cout << "Enter number of training iterations: ";
-  std::cin >> iter;
+  std::cout << "Enter number of training iterations: " << Niter;
 
-  for (int i = 0; i < iter; i++)
+  for (int i = 0; i < Niter; i++)
     for (int j = 0; j < Ntrain; j++)
       network.train(train_input[j], train_output[j]);
 
@@ -306,7 +305,7 @@ int main()
       test_input[i][j] = 0;
       j--;
     }
- }
+  }
 
   for (int i = 0; i < Ntest; i++)
   {
