@@ -273,7 +273,7 @@ int main()
       train_output[i][0] = 0;
   }
 
-  std::cout << "Enter number of training iterations: " << Niter;
+  std::cout << "Number of training iterations: " << Niter;
 
   for (int i = 0; i < Niter; i++)
     for (int j = 0; j < Ntrain; j++)
