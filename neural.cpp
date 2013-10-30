@@ -311,21 +311,20 @@ int main()
   {
     network.test(test_input[i], test_output);
 
-    if (test_output[0] > 0.5)
-    {
-      db++;
-      std::cout << "\nCase number: " << db << "\n";
 
-      std::cout << "Input: ";
-      for (int j = 0; j < layer[0]; j++)
-        std::cout << test_input[i][j];
-      std::cout << " (" << i+1 << ")\n";
+    db++;
+    std::cout << "\nCase number: " << db << "\n";
 
-      std::cout << "Output: ";
-      for (int j = 0; j < layer[2]; j++)
-        std::cout << test_output[j];
-      std::cout << "\n";
-    }
+    std::cout << "Input: ";
+    for (int j = 0; j < layer[0]; j++)
+      std::cout << test_input[i][j];
+    std::cout << " (" << i+1 << ")\n";
+
+    std::cout << "Output: ";
+    for (int j = 0; j < layer[2]; j++)
+      std::cout << test_output[j];
+    std::cout << "\n";
+
   }
 
   std::cout << "\nEnd testing.\n";
