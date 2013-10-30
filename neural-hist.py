@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import os
 
 def histogram(nums):
-	plt.hist(nums, 50, histtype='stepfilled')
+	plt.hist(nums, 100, (0,1), histtype='stepfilled')
 	plt.show
 	plt.savefig("histogram.png")
 
@@ -16,6 +16,7 @@ def main():
 	runNeural()
 	f = open('result.txt', 'r')
 	text = f.read()
+	f.close()
 	nums = re.findall('0\.\d+', text) + re.findall('\d\.\d+e-\d+', text)
 
 	for i in range(len(nums)):
