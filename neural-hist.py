@@ -5,9 +5,18 @@ import matplotlib.pyplot as plt
 import os
 
 def histogram(nums):
-	plt.hist(nums, 100, (0,1), histtype='stepfilled')
+	(x, y, z) = plt.hist(nums, 100, (0,1), histtype='stepfilled')
 	plt.show
 	plt.savefig("histogram.png")
+
+	print "Range\t\t\tNumber of outputs\n"
+
+	for i in xrange(len(x)):
+		if i+1 == len(x):
+			next = 1
+		else:
+			next = y[i+1]
+		print '[', format(y[i], '.2f'), '-', format(next, '.2f'), ']', '\t', x[i]
 
 def runNeural():
 	os.system("./neural > result.txt")
