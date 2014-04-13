@@ -9,6 +9,12 @@ Python program for examining the output of neural.cpp
  * - save output as result.txt
  * - draw histogram from the output, save as histogram.png
  * - print outputs in ranges
+
+Dependencies
+============
+
+Matplotlib
+
  
 Build
 =====
